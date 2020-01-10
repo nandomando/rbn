@@ -14,21 +14,12 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'discover', children: [
-          {
-            path: '',
-            loadChildren: () => import('./discover/discover.module').then( m => m.DiscoverPageModule)
-          },
-        ]
+        path: 'discover',
+        loadChildren: () => import('./discover/discover.module').then( m => m.DiscoverPageModule)
       },
       {
         path: 'offers',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('./offers/offers.module').then( m => m.OffersPageModule)
-          },
-        ]
+        loadChildren: () => import('./offers/offers.module').then( m => m.OffersPageModule)
       }
     ]
   },
