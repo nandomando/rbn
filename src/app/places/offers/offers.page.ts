@@ -9,6 +9,7 @@ import { PlacesService } from '../places.service';
 })
 export class OffersPage implements OnInit {
   offers: Place[];
+
   constructor(private placesService: PlacesService) { }
 
   ngOnInit() {
