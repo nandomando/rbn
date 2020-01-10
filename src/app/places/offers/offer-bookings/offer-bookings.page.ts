@@ -28,5 +28,4 @@ export class OfferBookingsPage implements OnInit {
       this.place = this.placesService.getPlace(paramMap.get('placeId'));
     });
   }
-
 }
