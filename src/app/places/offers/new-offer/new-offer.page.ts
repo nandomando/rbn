@@ -13,4 +13,7 @@ export class NewOfferPage implements OnInit {
   ngOnInit() {
   }
 
+  togglebtn() {
+    document.body.classList.toggle('dark');
+  }
 }
