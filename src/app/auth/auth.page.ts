@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-auth',
@@ -12,6 +11,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 })
 export class AuthPage implements OnInit {
   isLoading = false;
+  isLogin = true;
 
   constructor(
     private authService: AuthService,
@@ -38,6 +38,21 @@ export class AuthPage implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form);
+    if (!form.valid) {
+      return;
+    }
+    const email = form.value.email;
+    const password = form.value.password;
+    console.log(email, password);
+
+    if (this.isLogin) {
+      // send a request to login servers
+    } else {
+      // send a request to signup servers
+    }
+  }
+
+  onSwitchAuthMode() {
+    this.isLogin = !this.isLogin;
   }
 }

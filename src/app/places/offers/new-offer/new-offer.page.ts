@@ -16,4 +16,8 @@ export class NewOfferPage implements OnInit {
   togglebtn() {
     document.body.classList.toggle('dark');
   }
+
+  onCreateOffer() {
+    console.log('creating offer place..');
+  }
 }

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Authenticate</ion-title>
+    <ion-title>{{ isLogin ? 'Login' : 'Signup' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -46,8 +46,20 @@
       <ion-row>
         <ion-col>
           <!--<ion-spinner color="primary" *ngIf="isLoading"></ion-spinner> -->
-          <ion-button type="button" color="primary" fill="clear" expand="full">Switch to Login</ion-button>
-          <ion-button type="submit" color="primary" (click)="onLogin()" expand="block">
+          <ion-button 
+            type="button" 
+            color="primary" 
+            fill="clear" 
+            expand="full"
+            (click)="onSwitchAuthMode()"
+          >Switch to {{ isLogin ? 'Signup' : 'Login' }}</ion-button>
+          <ion-button 
+            type="submit" 
+            color="primary" 
+            (click)="onLogin()" 
+            expand="block"
+            [disabled]="!f.valid"
+          >
             Login
           </ion-button>
         </ion-col>
