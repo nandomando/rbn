@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-text-center">
-  <form>
+  <form (ngSubmit)="onBookPlace()" #f="ngForm">
     <ion-grid>
       <ion-row>
         <ion-col>
@@ -85,7 +85,13 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button color="primary" type="submit" expand="block">Book!</ion-button>
+          <ion-button 
+            color="primary" 
+            type="submit" 
+            expand="block" 
+            [disabled]="!f.valid || !datesValid()"
+            >Book!
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
