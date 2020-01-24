@@ -32,7 +32,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-virtual-scroll [items]="loadedPlaces" approxItemHeight="70px">
+        <ion-virtual-scroll [items]="loadedPlaces" approxItemHeight="60px">
           <ion-item [routerLink]="['/', 'places', 'tabs', 'discover', place.id]" 
           detail
           *virtualItem="let place">

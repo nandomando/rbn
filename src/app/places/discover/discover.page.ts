@@ -3,8 +3,6 @@ import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 import { SegmentChangeEventDetail } from '@ionic/core';
 import { Subscription } from 'rxjs';
-import { MenuController } from '@ionic/angular';
-
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.page.html',
@@ -14,7 +12,9 @@ export class DiscoverPage implements OnInit, OnDestroy {
   loadedPlaces: Place[];
   private placesSub: Subscription;
 
-  constructor(private placesService: PlacesService, private menuCtrl: MenuController) { }
+  constructor(
+    private placesService: PlacesService,
+  ) { }
 
   ngOnInit() {
     this.placesSub = this.placesService.places.subscribe(places => {
