@@ -19,7 +19,7 @@
         <p>{{ place.description }}</p>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="isBookable">
       <ion-col>
         <ion-button expand="block" color="primary" (click)="onBookPlace()">Book</ion-button>
       </ion-col>
