@@ -67,7 +67,9 @@ export class PlacesService {
       this.authService.userId
     );
     this.places.pipe(take(1)).subscribe(places => {
-      this._places.next(places.concat(newPlace));
+      setTimeout(() => {
+        this._places.next(places.concat(newPlace));
+      }, 1000);
     });
   }
 }
