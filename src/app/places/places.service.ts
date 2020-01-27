@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Place } from './place.model';
 import { AuthService } from '../auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, tap, delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class PlacesService {
       150.00,
       new Date('2019-01-01'),
       new Date('2024-12-31'),
-      'abc'
+      'ac'
     ),
     new Place(
       'p3',
@@ -66,10 +66,34 @@ export class PlacesService {
       dateTo,
       this.authService.userId
     );
-    this.places.pipe(take(1)).subscribe(places => {
-      setTimeout(() => {
+    return this.places.pipe(
+      take(1),
+      delay(1000),
+      tap(places => {
         this._places.next(places.concat(newPlace));
-      }, 1000);
-    });
+      })
+    );
+  }
+
+  updatePlace(placeId: string, title: string, description: string) {
+    return this.places.pipe(
+      take(1),
+      delay(1000),
+      tap(places => {
+      const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
+      const updatedPlaces = [...places];
+      const oldPlace = updatedPlaces[updatedPlaceIndex];
+      updatedPlaces[updatedPlaceIndex] = new Place(
+        oldPlace.id,
+        title,
+        description,
+        oldPlace.imageUrl,
+        oldPlace.price,
+        oldPlace.availableFrom,
+        oldPlace.availableTo,
+        oldPlace.userId
+        );
+      this._places.next(updatedPlaces);
+    }));
   }
 }
