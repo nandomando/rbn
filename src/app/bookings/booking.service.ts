@@ -4,11 +4,10 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { take, tap, delay, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { KeyedRead } from '@angular/compiler';
 
 interface BookingData {
-    dateFrom: string;
-    dateTo: string;
+    bookedFrom: string;
+    bookedTo: string;
     firstName: string;
     guestNumber: number;
     lastName: string;
@@ -83,7 +82,7 @@ export class BookingService {
     fetchBookings() {
         return this.http
         .get<{[key: string]: BookingData}>(
-            `https://ion-rbn.firebaseio.com/bookings.json?orderBy="userId"&equalTo"${
+            `https://ion-rbn.firebaseio.com/bookings.json?orderBy="userId"&equalTo="${
                 this.authService.userId
             }"`
         ).pipe(
@@ -101,8 +100,8 @@ export class BookingService {
                             bookingData[key].firstName,
                             bookingData[key].lastName,
                             bookingData[key].guestNumber,
-                            new Date(bookingData[key].dateFrom),
-                            new Date(bookingData[key].dateTo)
+                            new Date(bookingData[key].bookedFrom),
+                            new Date(bookingData[key].bookedTo)
                         )
                     );
                 }
