@@ -63,7 +63,7 @@ export class NewOfferPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
-      image: new FormControl(null)
+      image: new FormControl(null, {validators: [Validators.required]})
     });
   }
 
@@ -71,7 +71,7 @@ export class NewOfferPage implements OnInit {
     document.body.classList.toggle('dark');
   }
 
-  onImagePicked(imageData: string) {
+  onImagePicked(imageData: string | File) {
     let imageFile;
     if (typeof imageData === 'string') {
       try {
