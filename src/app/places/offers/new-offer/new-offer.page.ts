@@ -44,6 +44,8 @@ export class NewOfferPage implements OnInit {
     document.body.classList.toggle('dark');
   }
 
+  onImagePicked(imageData: string) {}
+
   onCreateOffer() {
     if (!this.form.valid) {
       return;
