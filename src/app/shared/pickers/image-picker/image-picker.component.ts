@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Plugins, Capacitor, CameraSource, CameraResultType } from '@capacitor/core';
 
+
 @Component({
   selector: 'app-image-picker',
   templateUrl: './image-picker.component.html',
