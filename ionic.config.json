@@ -1,5 +1,7 @@
 {
   "name": "rbn",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
