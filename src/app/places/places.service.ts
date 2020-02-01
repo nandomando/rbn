@@ -115,26 +115,37 @@ export class PlacesService {
     //   })
     // );
 
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+
+    return this.http.post<{imageUrl: string, imagePath: string}>(
+      'https://us-central1-ion-rbn.cloudfunctions.net/storeImage',
+      uploadData
+    );
+  }
+
   addPlace(
     title: string,
     description: string,
     price: number,
     dateFrom: Date,
-    dateTo: Date
+    dateTo: Date,
+    imageUrl: string
   ) {
     let generatedId: string;
     const newPlace = new Place(
       Math.random().toString(),
       title,
       description,
-      'https://images.pexels.com/photos/1268871/pexels-photo-1268871.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260', 
+      imageUrl,
       price,
       dateFrom,
       dateTo,
       this.authService.userId
     );
     return this.http
-      .post<{name: string}>('https://ion-rbn.firebaseio.com/offered-places.json', { 
+      .post<{name: string}>('https://ion-rbn.firebaseio.com/offered-places.json', {
         ...newPlace,
         id: null
       })

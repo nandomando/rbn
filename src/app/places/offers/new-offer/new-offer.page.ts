@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlacesService } from '../../places.service';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { switchMap } from 'rxjs/operators';
 
 function base64toBlob(base64Data, contentType) {
   contentType = contentType || '';
@@ -63,7 +64,7 @@ export class NewOfferPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
-      image: new FormControl(null, {validators: [Validators.required]})
+      image: new FormControl (null)
     });
   }
 
@@ -83,6 +84,8 @@ export class NewOfferPage implements OnInit {
         console.log(error);
         return;
       }
+    } else {
+      imageFile = imageData;
     }
     this.form.patchValue({image: imageFile});
   }
@@ -91,21 +94,32 @@ export class NewOfferPage implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    this.loadingCtrl.create({
-      message: 'Creating...'
-    }).then(loadingEl => {
-      loadingEl.present();
-      this.placesService.addPlace(
-        this.form.value.title,
-        this.form.value.description,
-        +this.form.value.price,
-        new Date(this.form.value.dateFrom),
-        new Date(this.form.value.dateTo)
-      ).subscribe(() => {
-        loadingEl.dismiss();
-        this.form.reset();
-        this.router.navigate(['/places/tabs/offers']);
+    this.loadingCtrl
+      .create({
+        message: 'Creating...'
+      })
+      .then(loadingEl => {
+        loadingEl.present();
+        this.placesService
+        .uploadImage(this.form.get('image').value)
+        .pipe(
+          switchMap(uploadRes => {
+            return this.placesService
+            .addPlace(
+              this.form.value.title,
+              this.form.value.description,
+              +this.form.value.price,
+              new Date(this.form.value.dateFrom),
+              new Date(this.form.value.dateTo),
+              uploadRes.imageUrl
+            );
+          })
+        )
+        .subscribe(() => {
+          loadingEl.dismiss();
+          this.form.reset();
+          this.router.navigate(['/places/tabs/offers']);
+        });
       });
-    });
   }
 }
