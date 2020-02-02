@@ -60,7 +60,7 @@
             expand="block"
             [disabled]="!f.valid"
           >
-            Login
+            {{ isLogin? 'Login': 'Sigup' }}
           </ion-button>
         </ion-col>
       </ion-row>
