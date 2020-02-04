@@ -21,13 +21,12 @@ export class AuthPage implements OnInit {
     private alertCtrl: AlertController
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   authenticate(email: string, password: string) {
     this.isLoading = true;
     this.loadingCtrl
-    .create({keyboardClose: true, message: 'Loading..'})
+    .create({ keyboardClose: true, message: 'Logging in...' })
     .then(loadingEl => {
       loadingEl.present();
       let authObs: Observable<AuthResponseData>;
@@ -36,25 +35,27 @@ export class AuthPage implements OnInit {
       } else {
         authObs = this.authService.signup(email, password);
       }
-      authObs.subscribe(resData => {
-        console.log(resData);
-        this.isLoading = false;
-        loadingEl.dismiss();
-        this.router.navigateByUrl('/places/tabs/discover');
-      },
-      errRes => {
-        loadingEl.dismiss();
-        const code = errRes.error.error.message;
-        let message = 'Could not sign you up, please try again.';
-        if (code === 'EMAIL_EXISTS') {
-          message = 'This email exist already!';
-        } else if (code === 'EMAIL_NOT_FOUND') {
-          message = 'E-MAIL could not be found.';
-        } else if (code === 'INVALID_PASSWORD') {
-          message = 'This password is not correct.';
+      authObs.subscribe(
+        resData => {
+          console.log(resData);
+          this.isLoading = false;
+          loadingEl.dismiss();
+          this.router.navigateByUrl('/places/tabs/discover');
+        },
+        errRes => {
+          loadingEl.dismiss();
+          const code = errRes.error.error.message;
+          let message = 'Could not sign you up, please try again.';
+          if (code === 'EMAIL_EXISTS') {
+            message = 'This email exist already!';
+          } else if (code === 'EMAIL_NOT_FOUND') {
+            message = 'E-MAIL could not be found.';
+          } else if (code === 'INVALID_PASSWORD') {
+            message = 'This password is not correct.';
+          }
+          this.showAlert(message);
         }
-        this.showAlert(message);
-      });
+      );
     });
   }
 
@@ -66,6 +67,7 @@ export class AuthPage implements OnInit {
     const password = form.value.password;
 
     this.authenticate(email, password);
+    form.reset();
   }
 
   onSwitchAuthMode() {
@@ -76,8 +78,9 @@ export class AuthPage implements OnInit {
     this.alertCtrl
       .create({
         header: 'Authentication failed',
-        message,
+        message: message,
         buttons: ['okay']
-      }).then(alertEl => alertEl.present());
+      })
+      .then(alertEl => alertEl.present());
   }
 }
