@@ -134,22 +134,29 @@ export class PlacesService {
     imageUrl: string
   ) {
     let generatedId: string;
-    const newPlace = new Place(
-      Math.random().toString(),
-      title,
-      description,
-      imageUrl,
-      price,
-      dateFrom,
-      dateTo,
-      this.authService.userId
-    );
-    return this.http
-      .post<{name: string}>('https://ion-rbn.firebaseio.com/offered-places.json', {
-        ...newPlace,
-        id: null
-      })
-      .pipe(
+    let newPlace: Place;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap(userId => {
+      if (!userId) {
+        throw new Error('No user found!');
+      }
+      newPlace = new Place(
+        Math.random().toString(),
+        title,
+        description,
+        imageUrl,
+        price,
+        dateFrom,
+        dateTo,
+        userId
+      );
+      return this.http
+        .post<{name: string}>('https://ion-rbn.firebaseio.com/offered-places.json', {
+          ...newPlace,
+          id: null
+        });
+    }),
         switchMap(resData => {
           generatedId = resData.name;
           return this.places;
